@@ -9,9 +9,9 @@ app.use(cors());
 
 app.post("/items",async (req,res)=>{
     try{
-    const {items}=req.body;
+    const {text}=req.body;
     await connection.query(`INSERT INTO compras (items) 
-    VALUES ($1)`,[items]);
+    VALUES ($1)`,[text]);
     res.sendStatus(201)
     }catch(error){
     console.log(error)
@@ -19,5 +19,13 @@ app.post("/items",async (req,res)=>{
     }
 });
 
+app.get("/items", async (req,res)=>{
+    try{
+        const result=await connection.query(`SELECT * FROM compras`)
+        res.send(result.rows).status(200)
+    }catch{
+        res.sendStatus(500)
+    }
+})
 
 export default app;
